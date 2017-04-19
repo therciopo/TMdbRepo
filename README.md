@@ -14,9 +14,9 @@
 
 
 #### Screenshots
-<img src="TMdbApp\Screenshots\Screenshot_20170419-115519.png" width="150"> 
-<img src="TMdbApp\Screenshots\Screenshot_20170419-115525.png " width="150">
-<img src="TMdbApp\Screenshots\Screenshot_20170419-115538.png " width="150">
+<img src="TMDbApp\Screenshots\Screenshot_20170419-115519.png" width="150"> 
+<img src="TMDbApp\Screenshots\Screenshot_20170419-115525.png " width="150">
+<img src="TMDbApp\Screenshots\Screenshot_20170419-115538.png " width="150">
 
 
 Thank You
