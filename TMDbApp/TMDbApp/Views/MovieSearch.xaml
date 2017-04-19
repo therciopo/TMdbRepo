@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TMDbApp.Views.SearchPage"
+             xmlns:helpers="clr-namespace:TMDbApp.Helpers;assembly=TMDbApp"
+             xmlns:Controls="clr-namespace:TMDbApp.ExtendedControls;assembly=TMDbApp"
+             Title="{Binding Title}">
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <SearchBar x:Name="MySearchBar"
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding SearchCommand}"
+                       BackgroundColor="Silver"
+                       Placeholder="Search TMdb"
+                       PlaceholderColor="Black"
+                       CancelButtonColor="Gray" />
+
+            <Controls:LazyLoadListView
+                x:Name="ItemsListView"
+                ItemsSource="{Binding Movies}"
+                LoadCommand="{Binding SearchCommand}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+				ItemSelected="OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="200">
+                            <ContentView Margin="10">
+                                <Grid RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="100"/>
+                                        <RowDefinition Height="5"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image BackgroundColor="Black" Aspect="AspectFill"
+                                               Source="{Binding BackDropImage}"
+                                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3"/>
+
+                                    <BoxView Color="#D6CE0B" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
+
+                                    <Label Text="{Binding MovieName}" HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"
+                                           Font="Bold"
+                                           FontSize="Small"
+                                           Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                                    <Image Source="ic_action_favorite.png}"
+                                           Grid.Row="3" Grid.Column="3"/>
+
+                                    <Label Text="{Binding VoteAverage}" FontSize="Small" HorizontalOptions="Center"
+                                           Grid.Row="3" Grid.Column="4"/>
+
+                                    <Label Text="{Binding ReleaseDate, StringFormat='{0:MMM/d/yyyy}'}"
+                                           FontSize="Small" TextColor="#646464"
+                                           Grid.Row="4" Grid.Column="1"/>
+
+                                    <RelativeLayout>
+                                        <Image Source="{Binding PosterImage}"
+                                               WidthRequest="100"
+                                               HeightRequest="140"
+                                               Aspect="AspectFit"
+                                               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=25}"
+                                               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Constant=5}"/>
+                                    </RelativeLayout>
+
+                                </Grid>
+                            </ContentView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </Controls:LazyLoadListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:TMDbApp.Helpers;assembly=TMDbApp"
+             x:Class="TMDbApp.Views.MovieDetailPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:GenresConverter x:Key="cnvGenres"></helpers:GenresConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <Grid RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Image BackgroundColor="Gray"
+                   Aspect="AspectFill"
+                   Source="{Binding Item.BackDropImage}"
+                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
+
+                <Label Text="{Binding Item.MovieName}"
+                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                   FontSize="Large"/>
+
+                <Label Text="{Binding Item.ReleaseDate, StringFormat='{0:MMM d, yyyy}'}"
+                                           FontSize="Small"
+                                           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                <Label Text="{Binding Item.Genres, Converter={StaticResource cnvGenres}}"
+                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
+                   FontSize="Small" TextColor="#646464"/>
+
+                <Label Text="{Binding Item.Overview}"
+                   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                   FontSize="Small"/>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
