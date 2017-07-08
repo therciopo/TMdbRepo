@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMDbApp.Models;
-
-namespace TMDbApp
+﻿namespace TMDbApp
 {
     public static class Constants
     {
@@ -14,7 +7,5 @@ namespace TMDbApp
         public static string language = "en-US"; // refactor to a localized solution
         public static string imageBaseUrl = "https://image.tmdb.org/t/p/";
         public static string image_size = "w780";
-
-        public static IDictionary<int, Genre> genres;
     }
 }

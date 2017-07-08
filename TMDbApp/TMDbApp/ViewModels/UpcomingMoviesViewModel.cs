@@ -1,8 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using TMDbApp.Models;
 using TMDbApp.Services;
 using Xamarin.Forms;
 
@@ -11,49 +8,41 @@ namespace TMDbApp.ViewModels
     public class UpcomingMoviesViewModel : BaseMovieViewModel, IUpcomingMoviesViewModel
     {
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand SearchCommand => new Command(NavigateToSearchAsync);
+        public ICommand SelectedItemCommand => new Command(NavigateToMovieAsync);
 
-        public UpcomingMoviesViewModel(IMovieService<Movie> service): base(service)
+        public UpcomingMoviesViewModel(IMovieService movieService): base(movieService)
         {
-            Title = "TMDb";
+            LoadItemsCommand = new Command(async
+                () => await LoadMoviesAsync(),
+                () => {return CurrentPage < TotalPages;});
 
-            LoadItemsCommand = new Command(
-                async () => await ExecuteLoadItemsCommand(),
-                () =>CanExecuteLoadItemsCommand());
+            LoadMoviesAsync().ConfigureAwait(false);
         }
 
-        public bool CanExecuteLoadItemsCommand()
+        private async Task LoadMoviesAsync()
         {
-            return (CurrentPage < TotalPages);
-        }
-
-        async Task ExecuteLoadItemsCommand()
-        {
-            if (IsBusy)
-                return;
-
             IsBusy = true;
-            try
+            var result = await MovieService.GetUpcomingMoviesAsync(CurrentPage++);
+            TotalPages = result.Total_Pages;
+            Device.BeginInvokeOnMainThread(() =>
             {
-                await GetGenresAsync();
-
-                var result = await MovieService.GetUpcomingMoviesAsync(CurrentPage++);
-                TotalPages = result.total_pages;
-                foreach (var item in result.results)
+                foreach (var item in result.Results)
                 {
-                    ConverToGenreNames(item);
-                    Movies.Add(item);
+                    Movies.Add(new MovieDetailViewModel(item));
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await Application.Current.MainPage
-                    .DisplayAlert("Error!", ex.Message, "OK");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            });
+            IsBusy = false;
+        }
+        private async void NavigateToMovieAsync(object movieDetail)
+        {
+            var viewModel = movieDetail as MovieDetailViewModel;
+            await PushAsync<MovieDetailViewModel>(viewModel);
+        }
+
+        private async void NavigateToSearchAsync()
+        {
+            await PushAsync<MovieSearchViewModel>();
         }
     }
 }

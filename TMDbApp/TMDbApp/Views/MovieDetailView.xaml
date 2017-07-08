@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:helpers="clr-namespace:TMDbApp.Helpers;assembly=TMDbApp"
-             x:Class="TMDbApp.Views.MovieDetailPage"
+             x:Class="TMDbApp.Views.MovieDetailView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -27,24 +28,27 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Image BackgroundColor="Gray"
-                   Aspect="AspectFill"
-                   Source="{Binding Item.BackDropImage}"
-                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
+                <ffimageloading:CachedImage
+                    BackgroundColor="Gray"
+                    Aspect="AspectFill"
+                    DownsampleToViewSize="true"
+                    Source="{Binding BackDropImage}"
+                    Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4">
+                </ffimageloading:CachedImage>
 
-                <Label Text="{Binding Item.MovieName}"
+                <Label Text="{Binding MovieName}"
                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                    FontSize="Large"/>
 
-                <Label Text="{Binding Item.ReleaseDate, StringFormat='{0:MMM d, yyyy}'}"
+                <Label Text="{Binding ReleaseDate, StringFormat='{0:MMM d, yyyy}'}"
                                            FontSize="Small"
                                            Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
 
-                <Label Text="{Binding Item.Genres, Converter={StaticResource cnvGenres}}"
+                <Label Text="{Binding Genres, Converter={StaticResource cnvGenres}}"
                    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
                    FontSize="Small" TextColor="#646464"/>
 
-                <Label Text="{Binding Item.Overview}"
+                <Label Text="{Binding Overview}"
                    Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
                    FontSize="Small"/>
             </Grid>

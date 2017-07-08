@@ -1,38 +1,26 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Reactive.Linq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TMDbApp.Models;
-using System.Diagnostics;
-using Xamarin.Forms;
+using TMDbApp.Helpers.Extensions;
 
 namespace TMDbApp.Services
 {
-    public class MoviesService : IMovieService<Movie>
+    public class MoviesService : IMovieService
     {
         private HttpClient _client;
-        private readonly ICacheService _cache;
-        public MoviesService(ICacheService cache)
+        private IEnumerable<DTO.Genre> _genres;
+        public MoviesService()
         {
-            _cache = cache;
             _client = new HttpClient();
             _client.MaxResponseContentBufferSize = 256000;
+
+            Task.Run(GetGenresAsync);
         }
 
-        public async Task<bool> AddItemAsync(Movie item)
-        {
-            return await Task.FromResult(true);
-        }
-
-        public async Task<Movie> GetItemAsync(string id)
-        {
-            return await Task.FromResult(default(Movie));
-        }
-
-        public async Task<IDictionary<int, Genre>> GetGenresAsync()
+        public async Task GetGenresAsync()
         {
             var uri = new Uri($"{Constants.apiBaseUrl}/genre/movie/list?api_key={Constants.apiKey}&language={Constants.language}");
 
@@ -40,13 +28,8 @@ namespace TMDbApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<GenreResult>(content);
-
-                return await Task.FromResult(result.genres.ToDictionary(x => x.Id));
-            }
-            else
-            {
-                return await Task.FromResult(default(IDictionary<int, Genre>));
+                var result = JsonConvert.DeserializeObject<DTO.GenreResult>(content);
+                _genres = result.genres;
             }
         }
 
@@ -56,62 +39,47 @@ namespace TMDbApp.Services
                 new Uri($"{Constants.apiBaseUrl}/movie/upcoming?api_key={Constants.apiKey}&language={Constants.language}") :
                 new Uri($"{Constants.apiBaseUrl}/movie/upcoming?api_key={Constants.apiKey}&language={Constants.language}&page={page}");
 
-            var response = await _client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
+            var result = await GetHttpRequestAsync<DTO.MoviesResult>(uri);
+
+            var movies = new List<Movie>();
+            foreach (var movie in result.results)
+                movies.Add(movie.ToModel(_genres));
+
+            return new MoviesResult
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var jsonObject = JsonConvert.DeserializeObject<MoviesResult>(content);
-                return await Task.FromResult(jsonObject);
-            }
-            else
-            {
-                return await Task.FromResult(default(MoviesResult));
-            }
+                Total_Pages = result.total_pages,
+                Total_Results = result.total_results,
+                Results = movies
+            };
         }
 
+        private async Task<TResult> GetHttpRequestAsync<TResult>(Uri uri)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(uri);
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TResult>(content);
+            }
+        }
         public async Task<MoviesResult> SearchAsync(string searchText, int page = 1)
         {
             var uri = page == 1 ?
                 new Uri($"{Constants.apiBaseUrl}/search/movie/?api_key={Constants.apiKey}&query={searchText}") :
                 new Uri($"{Constants.apiBaseUrl}/search/movie/?api_key={Constants.apiKey}&query={searchText}&page={page}");
 
-            try
+            var moviesResult = await GetHttpRequestAsync<DTO.MoviesResult>(uri);
+
+            var movies = new List<Movie>();
+            foreach (var movie in moviesResult.results)
+                movies.Add(movie.ToModel(_genres));
+
+            return new MoviesResult
             {
-                var response = await _client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var jsonObject = JsonConvert.DeserializeObject<MoviesResult>(content);
-                    return await Task.FromResult(jsonObject);
-                }
-                else
-                {
-                    return await Task.FromResult(default(MoviesResult));
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await Application.Current.MainPage
-                    .DisplayAlert("Error!", ex.Message, "OK");
-
-                return await Task.FromResult(default(MoviesResult));
-            }
-        }
-
-        public Task InitializeAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> PullLatestAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SyncAsync()
-        {
-            throw new NotImplementedException();
+                Total_Pages = moviesResult.total_pages,
+                Total_Results = moviesResult.total_results,
+                Results = movies
+            };
         }
     }
 }

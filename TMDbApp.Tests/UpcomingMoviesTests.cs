@@ -9,11 +9,10 @@ namespace UnitTestProject1
         [TestMethod]
         public void MoviesCountShouldBe20()
         {
-            var vm = new UpcomingMoviesViewModel(new ServiceMock());
+            Xamarin.Forms.Mocks.MockForms.Init();
 
-            Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
+            var vm = new UpcomingMoviesViewModel(new MovieServiceMock());
 
-            vm.LoadItemsCommand.Execute(null);
             Assert.IsTrue(vm.Movies.Count == 20, "Movies count != 20");
             Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
 
@@ -23,14 +22,16 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestUpcomingPageNavigation()
         {
-            var vm = new UpcomingMoviesViewModel(new ServiceMock());
-            Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
+            Xamarin.Forms.Mocks.MockForms.Init();
 
-            vm.LoadItemsCommand.Execute(null);
+            var vm = new UpcomingMoviesViewModel(new MovieServiceMock());
             Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
 
             vm.LoadItemsCommand.Execute(null);
             Assert.IsTrue(vm.CurrentPage == 3, "Current != 3");
+
+            vm.LoadItemsCommand.Execute(null);
+            Assert.IsTrue(vm.CurrentPage == 4, "Current != 4");
         }
     }
 }

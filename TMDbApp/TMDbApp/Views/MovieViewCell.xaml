@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          x:Class="TMDbApp.Views.MovieViewCell"
+          xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <ffimageloading:CachedImage
+            BackgroundColor="Black"
+            DownsampleToViewSize="true"
+            Aspect="AspectFill"
+            Source="{Binding BackDropImage}"
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3">
+        </ffimageloading:CachedImage>
+
+        <BoxView
+            Color="#D6CE0B" Grid.Row="2"
+            Grid.Column="0" Grid.ColumnSpan="5" />
+
+        <Label
+            Text="{Binding MovieName}"
+            HorizontalOptions="Fill" VerticalOptions="CenterAndExpand"
+            Font="Bold" FontSize="Small"
+            Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+        <ffimageloading:CachedImage
+            Source="ic_action_favorite.png}"
+            DownsampleToViewSize="true"
+            Grid.Row="3" Grid.Column="3">
+        </ffimageloading:CachedImage>
+
+        <Label
+            Text="{Binding VoteAverage}"
+            FontSize="Small" HorizontalOptions="Center"
+            Grid.Row="3" Grid.Column="4"/>
+
+        <Label
+            Text="{Binding ReleaseDate, StringFormat='{0:MMM/d/yyyy}'}"
+            FontSize="Small" TextColor="#646464"
+            Grid.Row="4" Grid.Column="1"/>
+
+        <ffimageloading:CachedImage
+            Margin="5, 0, 0, 0"
+            Source="{Binding PosterImage}"
+            DownsampleToViewSize="true"
+            WidthRequest="100" HeightRequest="140"
+            Aspect="AspectFill"
+            HorizontalOptions="Center" VerticalOptions="Center"
+            Grid.Row="0" Grid.Column="0" Grid.RowSpan="4">
+        </ffimageloading:CachedImage>
+    </Grid>
+</ViewCell>

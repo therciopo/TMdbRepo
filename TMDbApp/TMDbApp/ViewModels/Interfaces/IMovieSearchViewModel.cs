@@ -4,9 +4,9 @@ using TMDbApp.Models;
 
 namespace TMDbApp.ViewModels
 {
-    public interface ISearchViewModel
+    public interface IMovieSearchViewModel
     {
-        ObservableRangeCollection<Movie> Movies { get; set; }
+        ObservableRangeCollection<MovieDetailViewModel> Movies { get; set; }
         ICommand SearchCommand { get; set; }
 
         string SearchText { get; set; }

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TMDbApp.Views.MovieSearchView"
+             xmlns:local="clr-namespace:TMDbApp.Views"
+             xmlns:helpers="clr-namespace:TMDbApp.Helpers;assembly=TMDbApp"
+             xmlns:Controls="clr-namespace:TMDbApp.ExtendedControls;assembly=TMDbApp"
+             Title="Search Movies">
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <SearchBar x:Name="MySearchBar"
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding SearchCommand}"
+                       BackgroundColor="Silver"
+                       Placeholder="Search TMdb"
+                       PlaceholderColor="Black"
+                       CancelButtonColor="Gray" />
+
+            <Controls:LazyLoadListView
+                x:Name="ItemsListView"
+                ItemsSource="{Binding Movies}"
+                LoadCommand="{Binding LoadCommand}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                SelectedItemCommand="{Binding SelectedItemCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:MovieViewCell/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </Controls:LazyLoadListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

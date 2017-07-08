@@ -35,7 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AkavacheSqliteLinkerOverride.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -44,33 +43,42 @@
     <Compile Include="Constants.cs" />
     <Compile Include="CustomControls\LazyLoadListView.cs" />
     <Compile Include="Helpers\DateTimeConverter.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\GenresConverter.cs" />
-    <Compile Include="Helpers\MessengingCenterAlert.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
+    <Compile Include="Models\Dates.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\MoviesResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CacheService.cs" />
-    <Compile Include="Services\ICacheService.cs" />
+    <Compile Include="Services\DTO\Dates.cs" />
+    <Compile Include="Services\DTO\GenreResult.cs" />
+    <Compile Include="Services\DTO\Genres.cs" />
+    <Compile Include="Services\DTO\Movie.cs" />
+    <Compile Include="Services\DTO\MovieResult.cs" />
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\MoviesService.cs" />
     <Compile Include="ViewModels\BaseMovieViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\IBaseMovieViewModel.cs" />
-    <Compile Include="ViewModels\IMovieDetailViewModel.cs" />
-    <Compile Include="ViewModels\ISearchViewModel.cs" />
-    <Compile Include="ViewModels\IUpcomingMoviesViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IBaseMovieViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IMovieDetailViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IMovieSearchViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IUpcomingMoviesViewModel.cs" />
     <Compile Include="ViewModels\MovieDetailViewModel.cs" />
-    <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="ViewModels\MovieSearchViewModel.cs" />
     <Compile Include="ViewModels\UpcomingMoviesViewModel.cs" />
-    <Compile Include="Views\MovieDetail.xaml.cs">
-      <DependentUpon>MovieDetail.xaml</DependentUpon>
+    <Compile Include="Views\MovieDetailView.xaml.cs">
+      <DependentUpon>MovieDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MovieSearch.xaml.cs">
-      <DependentUpon>MovieSearch.xaml</DependentUpon>
+    <Compile Include="Views\MovieSearchView.xaml.cs">
+      <DependentUpon>MovieSearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Movies.xaml.cs">
-      <DependentUpon>Movies.xaml</DependentUpon>
+    <Compile Include="Views\MovieViewCell.xaml.cs">
+      <DependentUpon>MovieViewCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NoNetworkView.cs" />
+    <Compile Include="Views\UpcomingMoviesView.xaml.cs">
+      <DependentUpon>UpcomingMoviesView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -80,20 +88,32 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Akavache, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\akavache.core.5.0.0\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Akavache.Sqlite3, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\akavache.sqlite3.5.0.0\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.2.2.9\lib\portable-net45+win8+wpa81+wp8\FFImageLoading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.Forms.2.2.9\lib\portable-net45+win8+wpa81+wp8\FFImageLoading.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.2.2.9\lib\portable-net45+win8+wpa81+wp8\FFImageLoading.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\portable-net45+win8+wpa81+wp8\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Connectivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.3.0.1\lib\netstandard1.0\Plugin.Connectivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.3.0.1\lib\netstandard1.0\Plugin.Connectivity.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Splat, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -146,15 +166,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MovieDetail.xaml">
+    <EmbeddedResource Include="Views\MovieDetailView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MovieSearch.xaml">
+    <EmbeddedResource Include="Views\MovieSearchView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Movies.xaml">
+    <EmbeddedResource Include="Views\UpcomingMoviesView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MovieViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

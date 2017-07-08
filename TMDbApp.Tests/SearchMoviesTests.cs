@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TMDbApp.ViewModels;
-using TMDbApp.Models;
 
 namespace UnitTestProject1
 {
@@ -11,7 +9,9 @@ namespace UnitTestProject1
         [TestMethod]
         public void MovieNameShouldMatch()
         {
-            var vm = new SearchViewModel(new ServiceMock());
+            Xamarin.Forms.Mocks.MockForms.Init();
+
+            var vm = new MovieSearchViewModel(new MovieServiceMock());
             Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
             vm.SearchText = "Jack";
             vm.SearchCommand.Execute(null);
@@ -21,7 +21,9 @@ namespace UnitTestProject1
         [TestMethod]
         public void MovieSearchEmpty()
         {
-            var vm = new SearchViewModel(new ServiceMock());
+            Xamarin.Forms.Mocks.MockForms.Init();
+
+            var vm = new MovieSearchViewModel(new MovieServiceMock());
             Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
             vm.SearchText = "Lorem ispum";
             vm.SearchCommand.Execute(null);
@@ -32,30 +34,37 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestSearchPageNavigation()
         {
-            var vm = new SearchViewModel(new ServiceMock());
+            Xamarin.Forms.Mocks.MockForms.Init();
+
+            var vm = new MovieSearchViewModel(new MovieServiceMock());
             Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
 
-            if(vm.SearchCommand.CanExecute(null) == true)
-                vm.SearchCommand.Execute(null);
-
-            Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
-
             if (vm.SearchCommand.CanExecute(null) == true)
+            {
                 vm.SearchCommand.Execute(null);
-            Assert.IsTrue(vm.CurrentPage == 3, "Current != 3");
+                Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
+            }
+            if (vm.LoadCommand.CanExecute(null) == true)
+            {
+                vm.LoadCommand.Execute(null);
+                Assert.IsTrue(vm.CurrentPage == 3, "Current != 3");
+            }
         }
         [TestMethod]
         public void TestSearchPageNavigationEndReach()
         {
-            var vm = new SearchViewModel(new ServiceMock());
+            Xamarin.Forms.Mocks.MockForms.Init();
+
+            var vm = new MovieSearchViewModel(new MovieServiceMock());
             Assert.IsTrue(vm.CurrentPage == 1, "Current != 1");
             vm.SearchText = "Jack";
             if (vm.SearchCommand.CanExecute(null) == true)
+            {
                 vm.SearchCommand.Execute(null);
+                Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
+            }
 
-            Assert.IsTrue(vm.CurrentPage == 2, "Current != 2");
-
-            Assert.IsTrue(vm.SearchCommand.CanExecute(null) == false, "End not reach");
+            Assert.IsTrue(vm.LoadCommand.CanExecute(null) == false, "End not reached");
         }
     }
 }

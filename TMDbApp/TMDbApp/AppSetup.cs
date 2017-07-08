@@ -17,11 +17,11 @@ namespace TMDbApp
         }
         protected virtual void RegisterDepedencies(ContainerBuilder cb)
         {
-            cb.RegisterType<MoviesService>().As<IMovieService<Movie>>().SingleInstance();
-            cb.RegisterType<CacheService>().As<ICacheService>().SingleInstance();
+            cb.RegisterType<MoviesService>().As<IMovieService>().SingleInstance();
 
             cb.RegisterType<UpcomingMoviesViewModel>().As<IUpcomingMoviesViewModel>().SingleInstance();
-            cb.RegisterType<SearchViewModel>().As<ISearchViewModel>().SingleInstance();
+            cb.RegisterType<MovieDetailViewModel>().As<IMovieDetailViewModel>().SingleInstance();
+            cb.RegisterType<MovieSearchViewModel>().As<IMovieSearchViewModel>().SingleInstance();
         }
     }
 }

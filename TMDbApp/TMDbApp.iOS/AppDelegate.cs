@@ -1,6 +1,7 @@
 ﻿
 using Foundation;
 using UIKit;
+using FFImageLoading.Forms.Touch;
 
 namespace TMDbApp.iOS
 {
@@ -10,7 +11,8 @@ namespace TMDbApp.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init();
-			LoadApplication(new App());
+            CachedImageRenderer.Init();
+            LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);
 		}
