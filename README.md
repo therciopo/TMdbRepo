@@ -1,6 +1,6 @@
 ## Upcoming Movies Mobile App
 
-
+[![Build status](https://build.appcenter.ms/v0.1/apps/f82372d6-5de7-48f5-a6bc-09eca436bc21/branches/master/badge)](https://appcenter.ms)
 
 
 ![alt text](https://assets.tmdb.org/images/v4/logos/91x81.png "Logo")
@@ -37,8 +37,8 @@
 - CleanCode/SOLID
 - Class refactoring. Some methods with wrong responsibilities.
 - MVVM Improvements
- - Removed remaining Interface/Business Logic coupling replaced by Commands
- - Use of MVVM Navigation. This still can be refactored in order to make the View instantiation
+Â - Removed remaining Interface/Business Logic coupling replaced by Commands
+Â - Use of MVVM Navigation. This still can be refactored in order to make the View instantiation
 more robust and safe using PRISM or other MVVM Framework that implements navigation.
 
 Thank You
