@@ -12,7 +12,7 @@ namespace TMDbApp.iOS
 		{
 			global::Xamarin.Forms.Forms.Init();
             CachedImageRenderer.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new AppSetup()));
 
 			return base.FinishedLaunching(app, options);
 		}

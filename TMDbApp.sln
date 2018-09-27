@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMDbApp", "TMDbApp\TMDbApp\TMDbApp.csproj", "{B16AB9C1-50EB-44E5-A1C4-B7A7D1C79BB1}"
 EndProject
@@ -57,6 +57,7 @@ Global
 		{AFDA50F8-F9B1-4A32-8F37-B0F56A4A9B9F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{AFDA50F8-F9B1-4A32-8F37-B0F56A4A9B9F}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{FE3D2FF3-CA1B-4C8C-98DB-DB10AEE1535A}.Debug|Any CPU.ActiveCfg = Debug|iPhone
+		{FE3D2FF3-CA1B-4C8C-98DB-DB10AEE1535A}.Debug|Any CPU.Build.0 = Debug|iPhone
 		{FE3D2FF3-CA1B-4C8C-98DB-DB10AEE1535A}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{FE3D2FF3-CA1B-4C8C-98DB-DB10AEE1535A}.Debug|iPhone.Build.0 = Debug|iPhone
 		{FE3D2FF3-CA1B-4C8C-98DB-DB10AEE1535A}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
@@ -80,5 +81,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E56E2646-F74C-4927-B7C4-980E038DCFA1}
 	EndGlobalSection
 EndGlobal
